@@ -1,0 +1,7 @@
+CREATE OR REPLACE FILE FORMAT dbt_demo_file_format TYPE = 'CSV' field_delimiter = ',' ENCODING = 'UTF-16 LE' VALIDATE_UTF8 = TRUE, SKIP_HEADER = 1 FIELD_OPTIONALLY_ENCLOSED_BY = '"';
+CREATE OR REPLACE STAGE dbt_demo_stage FILE_FORMAT = 'dbt_demo_file_format';
+
+-- Change the path to yours: 
+PUT 'file://C:\\tmp\\demo\\how_to_do\\dbt-demo\\data\\opc2020.csv' @dbt_demo_stage;
+
+COPY INTO DBTDEMO.TEST.OPC FROM @dbt_demo_stage file_format = (format_name = dbt_demo_file_format);  
